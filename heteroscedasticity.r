@@ -26,9 +26,12 @@ fit <- lm(y ~ x + 0)
 
 
 # regression 
+png("C:/Users/Евгений/Documents/GitHub/multiple-regression-revisited/hsc1.png")
 plot(x,y, main="Observations with heteroscedаsticity")
 abline(0, b, col="green")
 abline(fit, col="red")
+dev.off()
+
 
 # repeat estimation 
 extract_b0  = function(lm_){return (coef(lm_)[1])}
@@ -38,6 +41,9 @@ bs = replicate(n_experiments, get_b())
 
 
 # plot estimator desities 
+
+png("C:/Users/Евгений/Documents/GitHub/multiple-regression-revisited/hsc2.png")
+
 b_avg = mean(bs)
 b_sd = sd(bs)
 h = hist(bs, breaks=40, freq=FALSE, 
@@ -45,11 +51,17 @@ h = hist(bs, breaks=40, freq=FALSE,
          sub=paste("True value:", b, "    ",
                    "Mean: ", round(b_avg,4), "    ",
                    "SD: ", round(b_sd,4)),
-         xlab="b")
-curve(dnorm(x, mean=b_avg, sd=b_sd),
-      add=TRUE, col="darkblue", lwd=2) 
+         xlab="b",
+         col="lightblue")
+# curve(dnorm(x, mean=b_avg, sd=b_sd), add=TRUE, col="darkblue", lwd=2) 
+lines(density(bs), col="darkblue", lwd=2) 
 abline(v=b, col ="green")
 abline(v=b_avg, col ="red")
 
 
+# from https://stackoverflow.com/questions/6973579/plotting-probability-density-mass-function-of-dataset-in-r
+# hist(energy,probability=TRUE)
+# lines(density(bs), col="darkblue", lwd=2) 
+
+dev.off()
 

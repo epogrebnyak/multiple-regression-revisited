@@ -32,8 +32,14 @@ dgp = function(){
 
 # estime by ols once and show results
 df = dgp()
+
+png('C:/Users/Евгений/Documents/GitHub/multiple-regression-revisited/ols_true_model.png')
+
 plot(df$x,df$y, xlab = "x", ylab="y", main="Observations and true model y=15+.5x+e")
 abline(a=b0,b=b1,col="green")
+
+dev.off()
+
 
 # TODO: make plot for distrubance term
 # plot(make_x(), make_epsilon())
@@ -61,13 +67,18 @@ b1_list = replicate(n_experiments, get_b1())
 # plot estimator desities 
 b1_avg = mean(b1_list)
 b1_sd = sd(b1_list)
+
+png('C:/Users/Евгений/Documents/GitHub/multiple-regression-revisited/ols_b1.png')
+
 h = hist(b1_list, breaks=40, freq=FALSE, 
          main=paste("Distribution of b1 on", n_experiments,"experiments"),
          sub=paste("True value:", b1, "    ",
                    "Mean: ", round(b1_avg,4), "    ",
                    "SD: ", round(b1_sd,4)),
-         xlab="b1")
-curve(dnorm(x, mean=b1_avg, sd=b1_sd),
-      add=TRUE, col="darkblue", lwd=2) 
+         xlab="b1",
+         col="lightblue")
+#curve(dnorm(x, mean=b1_avg, sd=b1_sd), add=TRUE, col="darkblue", lwd=2) 
+lines(density(b1_list), col="darkblue", lwd=2) 
 abline(v=b1, col ="green")
 abline(v=b1_avg, col ="red")
+dev.off()

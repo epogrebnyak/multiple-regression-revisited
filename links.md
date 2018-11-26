@@ -39,8 +39,16 @@ Cases in violations of
 - https://stats.stackexchange.com/questions/7836/in-regression-analysis-whats-the-difference-between-data-generation-process-and
 - https://spu.fem.uniag.sk/cvicenia/ksov/obtulovic/Mana%C5%BE.%20%C5%A1tatistika%20a%20ekonometria/EconometricsGREENE.pdf
 - https://www.sciencedirect.com/handbook/handbook-of-econometrics/vol/1/suppl/C
-- http://edrub.in/ARE212/Spring2017/section07.html
 
+## Tasks
+ 
+### Plot histograms together to compare estimator densities 
 
+- https://stackoverflow.com/questions/3541713/how-to-plot-two-histograms-together-in-r
+- https://blogs.sas.com/content/iml/2016/03/14/monte-carlo-estimates-of-pi.html
 
+### Fitiing a histogram
+
+- https://mathematica.stackexchange.com/questions/44695/what-is-the-best-distribution-for-my-histogram
+- https://stats.stackexchange.com/questions/377139/how-can-i-derive-the-function-curve-from-a-histogram-of-observed-data
 
