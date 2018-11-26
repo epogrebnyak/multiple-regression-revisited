@@ -2,7 +2,7 @@ rm(list=ls())
 set.seed(34)
 
 # sample size
-N = 100
+N = 50
 
 
 # explanatory variables
@@ -26,30 +26,29 @@ make_epsilon = function(n=N, mean=0, sd=sd_e){
 # make data generating process
 dgp = function(){
   x = make_x()
-  e = make_epsilon()
-  return (data.frame(x=x,y=f(x)+e))
+  y = f(x)+make_epsilon()
+  return (data.frame(x=x,y=y))
 }
 
 # estime by ols once and show results
 df = dgp()
-plot(df$x,df$y, xlab = "x", ylab="y")
-abline(a=b0,b=b1, col="green", main="Observations and true model")
-
+plot(df$x,df$y, xlab = "x", ylab="y", main="Observations and true model y=15+.5x+e")
+abline(a=b0,b=b1,col="green")
 
 # TODO: make plot for distrubance term
 # plot(make_x(), make_epsilon())
 
-
 lm1 <- lm(y~x, data = df)
+abline(lm1, col="red")
 summary(lm1)
 
 
 extract_b0  = function(lm_){
-  return (coef(lm)[1])
+  return (coef(lm_)[1])
 }
 
 extract_b1  = function(lm_){
-  return (coef(lm)[2])
+  return (coef(lm_)[2])
 }
 
 # repeat estimation 
@@ -72,4 +71,3 @@ curve(dnorm(x, mean=b1_avg, sd=b1_sd),
       add=TRUE, col="darkblue", lwd=2) 
 abline(v=b1, col ="green")
 abline(v=b1_avg, col ="red")
-
