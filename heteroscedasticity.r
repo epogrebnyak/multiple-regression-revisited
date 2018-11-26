@@ -1,6 +1,8 @@
 # OLS conditions violations: Heterscedasticity
 # Based on:
 # https://stats.stackexchange.com/questions/33028/measures-of-residuals-heteroscedasticity
+# See also:
+# https://stats.stackexchange.com/questions/258485/simulate-linear-regression-with-heteroscedasticity
 
 set.seed(17)
 n <- 500
@@ -9,9 +11,10 @@ make_x = function(){return (rgamma(n, shape=6, scale=1/2))}
 make_e = function(x){return (rnorm(length(x), sd=abs(sin(x))))}
 b = 2
 f = function(x){return (b*x)}
-make_y = function(){
+dgp = function(){
   x <- make_x() 
-  return (f(x)+make_e(x))  
+  y = f(x)+make_e(x)
+  return (data.frame(x=x,y=y))
 }
 
 # single run
@@ -19,16 +22,34 @@ x <- make_x()
 e <- make_e(x) 
 y_true = f(x) 
 y <- y_true + e
+fit <- lm(y ~ x + 0)
 
+
+# regression 
 plot(x,y, main="Observations with heteroscedаsticity")
-abline(0, b, col="red")
+abline(0, b, col="green")
+abline(fit, col="red")
 
-# estimators
+# repeat estimation 
+extract_b0  = function(lm_){return (coef(lm_)[1])}
+get_b = function(){coef(lm(y~x+0, data = dgp()))}
+n_experiments = 1000
+bs = replicate(n_experiments, get_b())
 
 
-#fit <- lm(y ~ x)
-#res <- residuals(fit)
-#pred <- predict(fit)
+# plot estimator desities 
+b_avg = mean(bs)
+b_sd = sd(bs)
+h = hist(bs, breaks=40, freq=FALSE, 
+         main=paste("Distribution of b on", n_experiments,"experiments"),
+         sub=paste("True value:", b, "    ",
+                   "Mean: ", round(b_avg,4), "    ",
+                   "SD: ", round(b_sd,4)),
+         xlab="b")
+curve(dnorm(x, mean=b_avg, sd=b_sd),
+      add=TRUE, col="darkblue", lwd=2) 
+abline(v=b, col ="green")
+abline(v=b_avg, col ="red")
 
 
 
