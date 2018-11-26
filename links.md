@@ -48,7 +48,6 @@ Cases in violations of
 - https://blogs.sas.com/content/iml/2016/03/14/monte-carlo-estimates-of-pi.html
 
 ### Fitiing a histogram
-
 - https://mathematica.stackexchange.com/questions/44695/what-is-the-best-distribution-for-my-histogram
 - https://stats.stackexchange.com/questions/377139/how-can-i-derive-the-function-curve-from-a-histogram-of-observed-data
-
+- https://mathematica.stackexchange.com/questions/44695/what-is-the-best-distribution-for-my-histogram
