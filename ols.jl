@@ -1,39 +1,24 @@
 using Distributions
 using Statistics
 
-a, b = 0, 20
-β_0 = 0.5
-β = 1
-sd_e = 1.1
-n1 = 100
-s = 50
-
-# TODO: pack this into one tupe
-x_dist1 = Uniform(a, b)
-y_process1(X) = β_0 .+ X * β
-noise_process1(X) = rand(Normal(0, sd_e), size(X, 1), 1)
-
 struct Observation
-    X::Array # enforce n*k
-    Y::Array #{T,1}
+    X::Array # TODO: enforce n*k
+    Y::Array # TODO: enforce n*1
 end 
 
-function make_x(n, x_dist)
-    return rand(x_dist, n, 1)
-end    
-
-function make_observation(X, y_process, noise_process)
-    Y = y_process(x) + noise_process(X)
-    return Observation(X, Y)
-end  
-
-function create_observations(n, x_dist, y_process, noise_process)
-    X = make_x(n, x_dist)
-    Y = y_process(X) + noise_process(X)
-    return Observation(X, Y)
-end  
-
-obs1 = create_observations(n1, x_dist1, y_process1, noise_process1)
+# Create function that will return normal observations
+function make_normal_sampler(; a, b, β_0, β, sd_e)
+    k = size(β, 1)
+    make_x_sample(n) = rand(Uniform(a, b), n, k)
+    y_process(X) = β_0 .+ X * β
+    noise_process(X) = rand(Normal(0, sd_e), size(X, 1), 1)
+    function normal_observations(n)
+        X = make_x_sample(n)
+        Y = y_process(X) + noise_process(X)
+        return Observation(X, Y)
+    end
+    return normal_observations
+end     
 
 struct LinearModel
     obs::Observation
@@ -75,23 +60,33 @@ function evaluate_ols(obs; intercept=false)
     return LinearModel(obs, intercept, beta_hat)
 end    
 
-#Y_hat = X * beta_hat 
-#RSS = sum((Y_hat - Y) .^ 2)
-#TSS = sum((Y .- mean(Y)) .^ 2) # equals var(Y)*n
-#R2 = 1-(RSS/TSS) 
-
+# functions for LinearModel
 yhat(lm::LinearModel) = lm.obs.X * lm.beta 
+function equation(lm::LinearModel) 
+    "must show equation like y=1+0.5*x1"
+end        
+# TODO = show equation as string
+show(lm::LinearModel) = lm.beta
+
+# residual sum of squares
 sum_of_squares(x) = sum(x .^ 2) 
 rss(lm::LinearModel) = sum_of_squares(yhat(lm) - lm.obs.Y)
+
+# total sum of squares for Y (distances from the mean)
 tss(lm::LinearModel) = sum_of_squares(lm.obs.Y .- mean(lm.obs.Y)) # equals var(Y)*n
+
+#R2 = 1-(RSS/TSS) 
 r2(lm::LinearModel) = 1 - rss(lm)/tss(lm)
 
+normal_sampler = make_normal_sampler(a=0, b=20, β_0=5, β=[1,2], sd_e=1.1)
+obs1 = normal_sampler(100)
 lm1 = evaluate_ols(obs1, intercept=true)
+println(show(lm1))
+# TODO: add below this to show
 println("R-squared: ", round(r2(lm1), digits=4))
 
-# TODO: convert to X arrays
+
 # TODO: import data
-# NOT TODO: same in R
 # TODO: replicate https://itl.nist.gov/div898/strd/lls/data/LINKS/v-Norris.shtml
 
 # the difference between two ols methods is really small 
