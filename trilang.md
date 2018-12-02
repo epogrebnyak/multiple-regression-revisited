@@ -105,10 +105,6 @@ Rules of thumb
    of code is trash)      
 
 
-
-
-
-
 ## Packages
 
 - julia and R have build-in package managers in REPL, python has separate utility `pip`
@@ -116,30 +112,4 @@ Rules of thumb
   where the function is coming from. Sometimes this creates confusion as even in std lib 
   function names vary across versions, sometimes it is handy as very basic fucntions in 
   linear algebra and probability are coming from packages and you avoid longer names. 
-
-### Installation  
-
-python
-
-```
-$pip install pandas
-```
-
-julia 
-
-
-### Import
-```python
-# python
-import pandas as pd
-```
-
-```julia
-#julia
-using DataFrames
-```
-
-
-
-
 
