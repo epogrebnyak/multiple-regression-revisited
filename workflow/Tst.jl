@@ -1,0 +1,3 @@
+import Tmp
+
+Tmp.greet()
