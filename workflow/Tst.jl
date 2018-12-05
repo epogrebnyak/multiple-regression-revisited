@@ -1,3 +1,0 @@
-import Tmp
-
-Tmp.greet()

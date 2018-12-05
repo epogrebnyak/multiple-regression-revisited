@@ -1,3 +1,7 @@
+module LinearModel
+
+export evaluate_ols, yhat, r2, show
+
 struct LinearModel
     observed::Sample
     has_intercept::Bool
@@ -20,16 +24,6 @@ function ols_(X, Y)
     return inv(X'*X)*X'*Y
 end
 
-function add_intercept(X::Array)
-    nrows = size(X, 1)
-    X0 = ones(nrows, 1)
-    return [X0 X]
-end    
-
-function add_intercept(sample::Sample)
-    return Sample(add_intercept(sample.X), sample.Y)
-end  
-
 function evaluate_ols(sample::Sample; intercept::Bool=false)
     if intercept==true
         obs = add_intercept(sample)
@@ -42,7 +36,7 @@ end
 
 """Return fitted dependent variable Y."""
 function yhat(lm::LinearModel)
-    if im.intercept == true
+    if lm.intercept == true
         f = add_intercept
     else 
         f = identity

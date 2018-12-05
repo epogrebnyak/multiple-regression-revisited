@@ -1,4 +1,4 @@
-module Tmp
+module Regression
 
 greet() = print("Hello World!")
 
