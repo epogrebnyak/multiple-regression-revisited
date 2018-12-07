@@ -1,4 +1,4 @@
-module Regression
+module Observations
 
 greet() = print("Hello World!")
 

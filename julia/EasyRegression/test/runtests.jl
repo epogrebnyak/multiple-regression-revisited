@@ -1,2 +1,0 @@
-using EasyRegression
-EasyRegression.greet()
