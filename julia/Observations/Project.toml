@@ -1,6 +1,0 @@
-authors = ["epogrebnyak <e.pogrebnyak@gmail.com>"]
-name = "Observations"
-uuid = "742104e0-f924-11e8-0273-e9624b80c8be"
-version = "0.1.0"
-
-[deps]
